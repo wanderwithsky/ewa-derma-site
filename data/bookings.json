@@ -1,0 +1,18 @@
+[
+  {
+    "category": "Clinical Dermatology",
+    "treatment": "Acne & Clinical Dermatology",
+    "date": "2026-09-20",
+    "timeSlot": "11:00 AM",
+    "doctor": "Dr. Ananya Sharma",
+    "fullName": "Test Patient",
+    "phone": "9876543210",
+    "email": "test@ewaderma.com",
+    "notes": "First time consultation test",
+    "website_hp": "",
+    "id": "bk_1789726278541_ifizzc",
+    "bookingRef": "EWA-BK-91221",
+    "createdAt": "2026-09-18T10:11:18.541Z",
+    "status": "confirmed"
+  }
+]

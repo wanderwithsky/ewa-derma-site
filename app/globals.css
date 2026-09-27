@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary */
+  --ewa-teal: #146A80;
+  --ewa-teal-deep: #0D4A5A;
+  --ewa-teal-bg: #1B4B5C;
+  --ewa-teal-bg-2: #2B6E86;
+
+  /* Accent */
+  --ewa-magenta: #E31C79;
+  --ewa-magenta-deep: #B4145F;
+
+  /* Secondary */
+  --ewa-green: #4FAE7C;
+  --ewa-cyan: #2E93A8;
+
+  /* Neutrals */
+  --ewa-white: #FFFFFF;
+  --ewa-ink: #0E2A32;
+  --ewa-mist: #F2F7F8;
+  --ewa-ivory: #FAF8F1;
+  --ewa-line: rgba(14, 42, 50, 0.12);
+}
+
+@layer base {
+  * {
+    border-color: var(--ewa-line);
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    color: var(--ewa-ink);
+    background-color: var(--ewa-mist);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-jakarta), system-ui, sans-serif;
+    color: var(--ewa-ink);
+    background: var(--ewa-mist);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: #E31C79;
+    color: #FFFFFF;
+  }
+}
+
+/* Glassmorphism & Luxury Utility Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 12px 32px -4px rgba(14, 42, 50, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.glass-panel-dark {
+  background: rgba(13, 74, 90, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(43, 110, 134, 0.4);
+  box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 106, 128, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(227, 28, 121, 0.3);
+  box-shadow: 0 16px 36px -6px rgba(14, 42, 50, 0.12), 0 0 20px -4px rgba(227, 28, 121, 0.15);
+}
+
+/* Signature Logo Ring & Gradient Text */
+.text-gradient-teal {
+  background: linear-gradient(135deg, #146A80 0%, #2B6E86 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-magenta {
+  background: linear-gradient(135deg, #E31C79 0%, #B4145F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2F1F5 60%, #E31C79 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3D Ring Emblem Glow */
+.ring-emblem {
+  position: relative;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #146A80 0%, #0D4A5A 50%, #2B6E86 100%);
+  box-shadow: 0 10px 25px -5px rgba(20, 106, 128, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.ring-emblem-magenta {
+  background: linear-gradient(135deg, #E31C79 0%, #B4145F 100%);
+  box-shadow: 0 10px 25px -5px rgba(227, 28, 121, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F2F7F8;
+}
+::-webkit-scrollbar-thumb {
+  background: #2B6E86;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #146A80;
+}
+
+/* 3 Standard Typography System Classes */
+.heading-standard {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 800;
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: #0D4A5A;
+}
+
+.heading-standard-white {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 800;
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+}
+
+.subheading-standard {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  line-height: 1.25;
+  color: #0D4A5A;
+}
+
+.subheading-standard-white {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  line-height: 1.25;
+  color: #FFFFFF;
+}
+
+.paragraph-standard {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: rgba(14, 42, 50, 0.82);
+}
+
+.paragraph-standard-white {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Continuous Marquee Carousel & Pause on Hover */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-smooth {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-smooth:hover,
+.animate-marquee-reverse:hover,
+.pause-marquee:hover .animate-marquee-smooth,
+.pause-marquee:hover .animate-marquee-reverse {
+  animation-play-state: paused !important;
+}
+
+/* Pop, Floating & Sliding Utility Keyframes */
+@keyframes pop-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  70% {
+    transform: scale(1.03) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-pop-up {
+  animation: pop-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slide-in-left 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right {
+  animation: slide-in-right 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility: Graceful Reduced Motion Handling */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-marquee-smooth,
+  .animate-marquee-reverse,
+  .animate-spin-slow,
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
