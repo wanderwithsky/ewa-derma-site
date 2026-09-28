@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Star,
   Quote,
@@ -45,7 +46,7 @@ const ReviewCard: React.FC<{
   const [showResponse, setShowResponse] = useState(false);
 
   return (
-    <div className="w-[340px] sm:w-[380px] shrink-0 bg-white rounded-3xl p-6 border border-[#146A80]/15 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group/card select-none text-left">
+    <div className="review-card w-[340px] sm:w-[380px] shrink-0 bg-white rounded-3xl p-6 border border-[#146A80]/15 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group/card select-none text-left">
       <div className="space-y-4">
         {/* Reviewer Header */}
         <div className="flex items-start justify-between gap-3">
@@ -152,9 +153,6 @@ const ReviewCard: React.FC<{
 export const TestimonialCarousel: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
 
-  // Duplicate items twice to create an infinite, seamless marquee scroll
-  const marqueeItems = [...GOOGLE_REVIEWS, ...GOOGLE_REVIEWS, ...GOOGLE_REVIEWS];
-
   return (
     <div className="space-y-8 w-full">
       {/* Top Google Trust Bar */}
@@ -202,33 +200,43 @@ export const TestimonialCarousel: React.FC = () => {
           </button>
         </div>
       </div>
+      <style>{`
+        @keyframes custom-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .testimonial-track {
+          animation: custom-marquee 40s linear infinite !important;
+        }
+        .testimonial-track:has(.review-card:hover),
+        .testimonial-track.force-pause {
+          animation-play-state: paused !important;
+        }
+      `}</style>
 
       {/* Infinite Moving Marquee Track */}
-      <div className="relative w-full overflow-hidden pause-marquee py-4">
-        {/* Soft edge fade masks */}
-        <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-[#F2F7F8] to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-[#F2F7F8] to-transparent z-10 pointer-events-none" />
-
+      <div className="relative w-[100vw] left-1/2 -translate-x-1/2 overflow-hidden py-4">
         {/* Animated Marquee Row */}
         <div
-          className={cn(
-            "flex gap-6",
-            !isPaused && "animate-marquee-smooth"
-          )}
-          style={isPaused ? { animationPlayState: "paused" } : undefined}
+          className={`flex w-max testimonial-track ${isPaused ? 'force-pause' : ''}`}
         >
-          {marqueeItems.map((review, index) => (
-            <ReviewCard key={`${review.id}-${index}`} review={review} />
-          ))}
-        </div>
+          {/* First Set */}
+          <div className="flex shrink-0 gap-6 px-3">
+            {GOOGLE_REVIEWS.map((review, index) => (
+              <ReviewCard key={`${review.id}-${index}-1`} review={review} />
+            ))}
+          </div>
+
+          {/* Second Set (Duplicate for seamless looping) */}
+          <div className="flex shrink-0 gap-6 px-3" aria-hidden="true">
+            {GOOGLE_REVIEWS.map((review, index) => (
+              <ReviewCard key={`${review.id}-${index}-2`} review={review} />
+            ))}
+          </div>
+          </div>
       </div>
 
-      {/* Interactive Helper Hint */}
-      <div className="text-center">
-        <span className="text-xs font-mono text-gray-500 bg-white/70 px-3 py-1 rounded-full border border-gray-200 shadow-sm">
-          💡 Hover over any card to pause and read reviews
-        </span>
-      </div>
+
     </div>
   );
 };

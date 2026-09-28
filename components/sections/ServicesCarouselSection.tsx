@@ -84,7 +84,6 @@ const SERVICES: ServiceSlide[] = [
 ];
 
 export function ServicesCarouselSection() {
-  const allServices = [...SERVICES, ...SERVICES, ...SERVICES];
 
   return (
     <section className="py-20 sm:py-28 bg-[#FBFDFD] relative overflow-hidden border-b border-ewa-line">
@@ -130,63 +129,122 @@ export function ServicesCarouselSection() {
 
       {/* Full-Width Infinite Moving Marquee Stream */}
       <div className="relative w-full overflow-hidden py-4 pause-marquee">
-        {/* Left & Right Luxurious Gradient Overlays for Smooth In/Out Fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#FBFDFD] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#FBFDFD] to-transparent z-10 pointer-events-none" />
+
 
         {/* Moving Cards Track */}
-        <div className="flex gap-6 animate-marquee-smooth hover:[animation-play-state:paused] py-4 px-4">
-          {allServices.map((service, index) => (
-            <div
-              key={`${service.id}-${index}`}
-              className="flex-shrink-0 w-[290px] sm:w-[350px] lg:w-[370px]"
-            >
-              <Link
-                href={`/services/${service.slug}`}
-                prefetch={true}
-                className="block relative h-[440px] rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group/card border border-ewa-line/60 bg-ewa-teal-deep hover:-translate-y-2"
+        <motion.div 
+          className="flex w-max py-4 hover:[animation-play-state:paused]"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+        >
+          {/* First Set */}
+          <div className="flex shrink-0 gap-6 px-3">
+            {SERVICES.map((service, index) => (
+              <div
+                key={`${service.id}-${index}-1`}
+                className="flex-shrink-0 w-[290px] sm:w-[350px] lg:w-[370px]"
               >
-                {/* Background Image */}
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  sizes="(max-width: 768px) 300px, 400px"
-                  className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out brightness-[0.92]"
-                />
+                <Link
+                  href={`/services/${service.slug}`}
+                  prefetch={true}
+                  className="block relative h-[440px] rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group/card border border-ewa-line/60 bg-ewa-teal-deep hover:-translate-y-2"
+                >
+                  {/* Background Image */}
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 768px) 300px, 400px"
+                    className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out brightness-[0.92]"
+                  />
 
-                {/* Aesthetic Luxury Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B2C33]/95 via-[#0B2C33]/45 to-transparent pointer-events-none" />
+                  {/* Aesthetic Luxury Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B2C33]/95 via-[#0B2C33]/45 to-transparent pointer-events-none" />
 
-                {/* Top Category Tag + Direct Link Arrow */}
-                <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
-                  <span className="px-3 py-1 rounded-full text-[11px] font-display font-semibold text-white/90 bg-black/30 backdrop-blur-md border border-white/20">
-                    {service.category}
-                  </span>
-                  <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 -translate-x-2 transition-all duration-300">
-                    <ArrowUpRight className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* Bottom Content Area */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 z-10 space-y-3">
-                  {/* Icon Badge */}
-                  <div className="w-12 h-12 rounded-2xl bg-white/90 backdrop-blur-md shadow-md flex items-center justify-center border border-white/60 group-hover/card:bg-white transition-colors">
-                    {service.icon}
+                  {/* Top Category Tag + Direct Link Arrow */}
+                  <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
+                    <span className="px-3 py-1 rounded-full text-[11px] font-display font-semibold text-white/90 bg-black/30 backdrop-blur-md border border-white/20">
+                      {service.category}
+                    </span>
+                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 -translate-x-2 transition-all duration-300">
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
                   </div>
 
-                  <h3 className="text-2xl font-display font-bold text-white tracking-tight leading-snug group-hover/card:text-ewa-cyan transition-colors">
-                    {service.title}
-                  </h3>
+                  {/* Bottom Content Area */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-10 space-y-3">
+                    {/* Icon Badge */}
+                    <div className="w-12 h-12 rounded-2xl bg-white/90 backdrop-blur-md shadow-md flex items-center justify-center border border-white/60 group-hover/card:bg-white transition-colors">
+                      {service.icon}
+                    </div>
 
-                  <p className="text-xs sm:text-sm text-white/80 line-clamp-2 font-sans leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
+                    <h3 className="text-2xl font-display font-bold text-white tracking-tight leading-snug group-hover/card:text-ewa-cyan transition-colors">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-white/80 line-clamp-2 font-sans leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* Second Set (Duplicate for seamless looping) */}
+          <div className="flex shrink-0 gap-6 px-3" aria-hidden="true">
+            {SERVICES.map((service, index) => (
+              <div
+                key={`${service.id}-${index}-2`}
+                className="flex-shrink-0 w-[290px] sm:w-[350px] lg:w-[370px]"
+              >
+                <Link
+                  href={`/services/${service.slug}`}
+                  prefetch={true}
+                  className="block relative h-[440px] rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group/card border border-ewa-line/60 bg-ewa-teal-deep hover:-translate-y-2"
+                >
+                  {/* Background Image */}
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 768px) 300px, 400px"
+                    className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out brightness-[0.92]"
+                  />
+
+                  {/* Aesthetic Luxury Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B2C33]/95 via-[#0B2C33]/45 to-transparent pointer-events-none" />
+
+                  {/* Top Category Tag + Direct Link Arrow */}
+                  <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
+                    <span className="px-3 py-1 rounded-full text-[11px] font-display font-semibold text-white/90 bg-black/30 backdrop-blur-md border border-white/20">
+                      {service.category}
+                    </span>
+                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0 -translate-x-2 transition-all duration-300">
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Bottom Content Area */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-10 space-y-3">
+                    {/* Icon Badge */}
+                    <div className="w-12 h-12 rounded-2xl bg-white/90 backdrop-blur-md shadow-md flex items-center justify-center border border-white/60 group-hover/card:bg-white transition-colors">
+                      {service.icon}
+                    </div>
+
+                    <h3 className="text-2xl font-display font-bold text-white tracking-tight leading-snug group-hover/card:text-ewa-cyan transition-colors">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-white/80 line-clamp-2 font-sans leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
 
       {/* Bottom Subtle Interaction Indicator */}

@@ -260,16 +260,16 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Model Image with Natural Bottom Extension */}
-            <div className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px] aspect-[3.2/4] flex items-end justify-center z-10">
+            {/* Model Image with Natural Bottom Extension (Now a Seamless Looping Video) */}
+            <div className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px] aspect-[3.2/4] flex items-end justify-center z-10 translate-y-8 sm:translate-y-12 lg:translate-y-16">
               <div className="relative w-full h-full">
-                <Image
-                  src="/images/hero-model.png"
-                  alt="Ewa Derma Clinical Skincare Model"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 380px, (max-width: 1200px) 460px, 500px"
-                  className="object-contain object-bottom select-none filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.25)]"
+                <video
+                  src="https://res.cloudinary.com/zvlxacfu/video/upload/v1790586947/hero-section.webm"
+                  className="w-full h-full object-cover select-none pointer-events-none"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ export const HeroSection: React.FC = () => {
                 aria-label="Book your appointment"
               >
                 {/* Continuous Rotating Text Ring */}
-                <div className="absolute inset-0 animate-spin-slow pointer-events-none">
+                <div className="absolute inset-0 animate-[spin_8s_linear_infinite] pointer-events-none">
                   <svg viewBox="0 0 100 100" className="w-full h-full">
                     <path
                       id="heroAppointmentCircle"

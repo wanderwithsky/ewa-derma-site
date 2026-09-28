@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -12,10 +12,25 @@ import {
   Play,
   X,
   Send,
+  Maximize,
 } from "lucide-react";
 
 export function WhyChooseUsSection() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleFullscreen = () => {
+    if (wrapperRef.current) {
+      if (wrapperRef.current.requestFullscreen) {
+        wrapperRef.current.requestFullscreen();
+      } else if ((wrapperRef.current as any).webkitRequestFullscreen) {
+        (wrapperRef.current as any).webkitRequestFullscreen();
+      } else if ((wrapperRef.current as any).msRequestFullscreen) {
+        (wrapperRef.current as any).msRequestFullscreen();
+      }
+    }
+  };
 
   return (
     <section className="py-20 sm:py-28 bg-white relative overflow-hidden border-b border-ewa-line">
@@ -29,71 +44,74 @@ export function WhyChooseUsSection() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 relative"
           >
-            <div className="relative mx-auto max-w-lg lg:max-w-none">
-              {/* Primary Large Image */}
-              <div className="relative w-full sm:w-[88%] h-[380px] sm:h-[460px] rounded-[32px] overflow-hidden shadow-2xl border-4 border-white group">
-                <Image
-                  src="/images/why-choose-us-big.png"
-                  alt="Specialist performing laser and skin treatment at Ewa Derma Clinic"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-top brightness-[0.98] group-hover:scale-105 transition-transform duration-700"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-              </div>
-
-              {/* Floating Circular Rotating Contact Badge */}
-              <motion.div
-                initial={{ scale: 0, rotate: -45 }}
-                whileInView={{ scale: 1, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
-                className="absolute -top-4 -right-2 sm:right-6 z-20"
-              >
-                <Link
-                  href="/contact"
-                  className="relative flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0D4A5A] text-white shadow-xl hover:scale-110 transition-transform duration-300 group border-2 border-white/60"
+            <div className="relative mx-auto w-full flex justify-center">
+              {/* Inner wrapper to anchor the absolute badge to the video bounds */}
+              <div className="relative inline-flex">
+                
+                {/* Primary Large Image (Now a Video) */}
+                <div 
+                  ref={wrapperRef} 
+                  className="relative rounded-[28px] overflow-hidden shadow-2xl group fullscreen-video-wrapper bg-black/5 shrink-0"
+                  style={{ aspectRatio: '9 / 16', height: 'min(80vh, 720px)', width: 'auto' }}
                 >
-                  {/* Rotating Text Ring */}
-                  <div className="absolute inset-0 animate-spin-slow pointer-events-none">
-                    <svg viewBox="0 0 100 100" className="w-full h-full">
-                      <path
-                        id="circlePath"
-                        d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                        fill="none"
-                      />
-                      <text className="text-[10px] font-display font-semibold uppercase fill-white tracking-[0.2em]">
-                        <textPath href="#circlePath" startOffset="0%">
-                          • Contact Us • Contact Us •
-                        </textPath>
-                      </text>
-                    </svg>
-                  </div>
+                  <video
+                    ref={videoRef}
+                    src="https://res.cloudinary.com/zvlxacfu/video/upload/v1790585584/without_outro.mp4"
+                    className="w-full h-full object-cover object-center brightness-[0.98] group-hover:scale-105 transition-transform duration-700 fullscreen-video-element"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                  
+                  {/* Fullscreen Button */}
+                  <button
+                    onClick={handleFullscreen}
+                    className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-20 p-2.5 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md transition-all duration-300 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100"
+                    aria-label="Fullscreen"
+                    title="Fullscreen"
+                  >
+                    <Maximize className="w-5 h-5" />
+                  </button>
+                </div>
 
-                  {/* Center Icon */}
-                  <div className="w-8 h-8 rounded-full bg-ewa-magenta flex items-center justify-center text-white shadow-sm group-hover:rotate-45 transition-transform duration-300">
-                    <Send className="w-3.5 h-3.5" />
-                  </div>
-                </Link>
-              </motion.div>
+                {/* Floating Circular Rotating Contact Badge */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -45 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
+                  className="absolute -top-10 sm:-top-12 -right-10 sm:-right-12 z-20"
+                >
+                  <Link
+                    href="/contact"
+                    className="relative flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0D4A5A] text-white shadow-xl hover:scale-110 transition-transform duration-300 group border-2 border-white/60"
+                  >
+                    {/* Rotating Text Ring */}
+                    <div className="absolute inset-0 animate-spin-slow pointer-events-none">
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <path
+                          id="circlePath"
+                          d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                          fill="none"
+                        />
+                        <text className="text-[10px] font-display font-semibold uppercase fill-white tracking-[0.2em]">
+                          <textPath href="#circlePath" startOffset="0%">
+                            • Contact Us • Contact Us •
+                          </textPath>
+                        </text>
+                      </svg>
+                    </div>
 
-              {/* Secondary Overlapping Image (Bottom Right) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="absolute -bottom-8 right-0 sm:right-2 w-[65%] sm:w-[60%] h-[200px] sm:h-[240px] rounded-[24px] overflow-hidden shadow-2xl border-4 border-white z-10 hidden sm:block group"
-              >
-                <Image
-                  src="/images/gallery/Screenshot 2026-09-17 150809.png"
-                  alt="State-of-the-Art In-Clinic Procedure Suite at Ewa Derma Clinic"
-                  fill
-                  sizes="300px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </motion.div>
+                    {/* Center Icon */}
+                    <div className="w-8 h-8 rounded-full bg-ewa-magenta flex items-center justify-center text-white shadow-sm group-hover:rotate-45 transition-transform duration-300">
+                      <Send className="w-3.5 h-3.5" />
+                    </div>
+                  </Link>
+                </motion.div>
+                
+              </div>
             </div>
           </motion.div>
 
@@ -236,6 +254,35 @@ export function WhyChooseUsSection() {
           </div>
         </div>
       )}
+
+      <style>{`
+        .fullscreen-video-wrapper:fullscreen {
+          width: 100vw !important;
+          height: 100vh !important;
+          background: #000 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+        .fullscreen-video-wrapper:-webkit-full-screen {
+          width: 100vw !important;
+          height: 100vh !important;
+          background: #000 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+        .fullscreen-video-wrapper:fullscreen .fullscreen-video-element,
+        .fullscreen-video-wrapper:-webkit-full-screen .fullscreen-video-element {
+          width: 100vw !important;
+          height: 100vh !important;
+          max-width: none !important;
+          max-height: none !important;
+          object-fit: contain !important;
+          transform: none !important;
+          border-radius: 0 !important;
+        }
+      `}</style>
     </section>
   );
 }

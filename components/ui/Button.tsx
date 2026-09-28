@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { motion, useReducedMotion, HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
+export interface ButtonProps extends Omit<HTMLMotionProps<any>, "ref" | "children"> {
   children?: React.ReactNode;
   variant?: "primary" | "secondary" | "outline" | "ghost" | "whatsapp" | "call";
   size?: "sm" | "md" | "lg" | "xl";
@@ -12,9 +12,10 @@ export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "ch
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   magnetic?: boolean;
+  asDiv?: boolean;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = React.forwardRef<HTMLElement, ButtonProps>(
   (
     {
       className,
@@ -27,15 +28,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       magnetic = true,
       onClick,
+      asDiv = false,
       ...props
     },
     ref
   ) => {
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const buttonRef = useRef<HTMLElement | null>(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const prefersReducedMotion = useReducedMotion();
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
       if (!magnetic || prefersReducedMotion || disabled || isLoading) return;
       if (buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
@@ -74,12 +76,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       xl: "text-lg px-9 py-4 gap-3 shadow-lg font-semibold",
     };
 
+    const MotionComponent = asDiv ? motion.div : motion.button;
+
     return (
-      <motion.button
-        ref={(node) => {
+      <MotionComponent
+        ref={(node: any) => {
           buttonRef.current = node;
           if (typeof ref === "function") ref(node);
-          else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+          else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
         }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -107,7 +111,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : null}
         <span className="relative z-10">{children}</span>
         {!isLoading && rightIcon ? <span className="shrink-0 relative z-10">{rightIcon}</span> : null}
-      </motion.button>
+      </MotionComponent>
     );
   }
 );

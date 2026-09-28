@@ -31,7 +31,7 @@ export function HowWeWorkSection() {
   return (
     <section className="py-20 sm:py-28 bg-[#FBFDFD] relative overflow-hidden border-b border-ewa-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[clamp(50px,6vw,90px)] items-center">
           {/* Left Column: Process Steps */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -90,62 +90,61 @@ export function HowWeWorkSection() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Help Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-full p-6 sm:p-7 rounded-[24px] bg-[#0D4A5A] text-white shadow-2xl space-y-4 border border-white/20"
+            >
+              <h4 className="subheading-standard-white">
+                Have Questions? We&apos;re Here to Help You!
+              </h4>
+
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <a
+                  href={`tel:${CLINIC_INFO.phone}`}
+                  className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white text-ewa-teal-deep font-display font-bold text-sm hover:bg-ewa-magenta hover:text-white transition-all duration-300 shadow-md group active:scale-95"
+                >
+                  <div className="w-6 h-6 rounded-full bg-ewa-teal-deep text-white group-hover:bg-white group-hover:text-ewa-magenta flex items-center justify-center transition-colors">
+                    <Phone className="w-3.5 h-3.5" />
+                  </div>
+                  <span>{CLINIC_INFO.phone}</span>
+                </a>
+
+                <a
+                  href="/contact"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-white/90 hover:text-white underline underline-offset-4"
+                >
+                  <span>Request Callback</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
 
-          {/* Right Column: Hero Image with Floating Help Card */}
+          {/* Right Column: Hero Image and Help Card */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-6 relative"
+            className="lg:col-span-6 flex flex-col gap-6"
           >
-            <div className="relative w-full h-[480px] sm:h-[560px] rounded-[32px] overflow-hidden shadow-2xl border-4 border-white group">
-                <Image
-                  src="/images/how-we-work.png"
-                  alt="Doctor consultation at Ewa Derma Clinic Lucknow"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-top brightness-[0.98] group-hover:scale-105 transition-transform duration-700"
-                  priority
+            {/* Main Video (Replaced Image) */}
+            <div className="relative w-full sm:max-w-[400px] mx-auto lg:mx-0 aspect-[9/16] rounded-[32px] overflow-hidden shadow-2xl group">
+                <video
+                  src="https://res.cloudinary.com/zvlxacfu/video/upload/v1790589168/03.mp4"
+                  className="w-full h-full object-cover object-center brightness-[0.98] group-hover:scale-105 transition-transform duration-700 pointer-events-none select-none"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                 />
-
-              {/* Aesthetic Dark Teal Gradient Overlay at Bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B2C33]/95 via-[#0B2C33]/25 to-transparent pointer-events-none" />
-
-              {/* Floating Bottom Card with Pop Animation */}
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="absolute bottom-6 left-6 right-6 p-6 sm:p-7 rounded-[24px] bg-[#0D4A5A]/90 backdrop-blur-md border border-white/20 text-white shadow-2xl space-y-4"
-              >
-                <h4 className="subheading-standard-white">
-                  Have Questions? We&apos;re Here to Help You!
-                </h4>
-
-                <div className="flex flex-wrap items-center gap-3 pt-1">
-                  <a
-                    href={`tel:${CLINIC_INFO.phone}`}
-                    className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white text-ewa-teal-deep font-display font-bold text-sm hover:bg-ewa-magenta hover:text-white transition-all duration-300 shadow-md group active:scale-95"
-                  >
-                    <div className="w-6 h-6 rounded-full bg-ewa-teal-deep text-white group-hover:bg-white group-hover:text-ewa-magenta flex items-center justify-center transition-colors">
-                      <Phone className="w-3.5 h-3.5" />
-                    </div>
-                    <span>{CLINIC_INFO.phone}</span>
-                  </a>
-
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center gap-2 text-xs font-semibold text-white/90 hover:text-white underline underline-offset-4"
-                  >
-                    <span>Request Callback</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </motion.div>
             </div>
+
           </motion.div>
         </div>
       </div>

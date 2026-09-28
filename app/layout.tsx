@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { PageTransition } from "@/components/ui/PageTransition";
+import { EnquiryPopup } from "@/components/ui/EnquiryPopup";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-ewa-mist text-ewa-ink min-h-screen selection:bg-ewa-magenta selection:text-white flex flex-col font-sans">
         <PageTransition>{children}</PageTransition>
+        <EnquiryPopup />
       </body>
     </html>
   );

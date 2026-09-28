@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -10,9 +10,25 @@ import {
   Layers,
   ShieldCheck,
   Sparkles,
+  Maximize,
 } from "lucide-react";
 
 export function OurBenefitsSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleFullscreen = () => {
+    if (wrapperRef.current) {
+      if (wrapperRef.current.requestFullscreen) {
+        wrapperRef.current.requestFullscreen();
+      } else if ((wrapperRef.current as any).webkitRequestFullscreen) {
+        (wrapperRef.current as any).webkitRequestFullscreen();
+      } else if ((wrapperRef.current as any).msRequestFullscreen) {
+        (wrapperRef.current as any).msRequestFullscreen();
+      }
+    }
+  };
+
   return (
     <section className="py-20 sm:py-28 bg-[#0D4A5A] text-white relative overflow-hidden border-b border-ewa-teal-bg-2/40">
       {/* Decorative Botanical Leaf Outlines & Ambient Glows */}
@@ -144,31 +160,59 @@ export function OurBenefitsSection() {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="relative w-[280px] sm:w-[320px] h-[400px] sm:h-[480px] rounded-t-[200px] rounded-b-[40px] overflow-hidden shadow-2xl border-4 border-white/40 bg-gradient-to-b from-[#146A80] to-[#0D4A5A] group"
             >
-              <img
-                src="/images/doctors/dr_ana.png"
-                alt="Dr. Ana (Dr. Ananya Sharma) - Chief Consultant Dermatologist"
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D4A5A]/85 via-transparent to-transparent pointer-events-none" />
-
-              {/* Floating Doctor Credential Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-4 left-4 right-4 p-3 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-center text-white space-y-0.5 shadow-lg"
-              >
-                <div className="text-xs font-display font-bold text-white drop-shadow-sm">
-                  Dr. Ana (Dr. Ananya Sharma)
-                </div>
-                <div className="text-[11px] font-sans text-white/90">
-                  Chief Consultant Dermatologist
-                </div>
-              </motion.div>
+              <div ref={wrapperRef} className="w-full h-full relative fullscreen-video-wrapper">
+                <video
+                  ref={videoRef}
+                  src="https://res.cloudinary.com/zvlxacfu/video/upload/v1790581431/240_Derma.mp4"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out fullscreen-video-element"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                />
+                
+                {/* Fullscreen Button */}
+                <button
+                  onClick={handleFullscreen}
+                  className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md transition-all duration-300 shadow-md flex items-center justify-center group-hover:opacity-100"
+                  aria-label="Fullscreen"
+                  title="Fullscreen"
+                >
+                  <Maximize className="w-4 h-4" />
+                </button>
+              </div>
             </motion.div>
           </div>
+
+          <style>{`
+            .fullscreen-video-wrapper:fullscreen {
+              width: 100vw !important;
+              height: 100vh !important;
+              background: #000 !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            }
+            .fullscreen-video-wrapper:-webkit-full-screen {
+              width: 100vw !important;
+              height: 100vh !important;
+              background: #000 !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            }
+            .fullscreen-video-wrapper:fullscreen .fullscreen-video-element,
+            .fullscreen-video-wrapper:-webkit-full-screen .fullscreen-video-element {
+              width: 100vw !important;
+              height: 100vh !important;
+              max-width: none !important;
+              max-height: none !important;
+              object-fit: contain !important;
+              transform: none !important;
+              border-radius: 0 !important;
+            }
+          `}</style>
 
           {/* Right Column: 3 Benefits (Left-aligned text + left icon) */}
           <div className="lg:col-span-4 space-y-10 order-3">

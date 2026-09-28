@@ -218,13 +218,6 @@
   will-change: transform;
 }
 
-.animate-marquee-smooth:hover,
-.animate-marquee-reverse:hover,
-.pause-marquee:hover .animate-marquee-smooth,
-.pause-marquee:hover .animate-marquee-reverse {
-  animation-play-state: paused !important;
-}
-
 /* Pop, Floating & Sliding Utility Keyframes */
 @keyframes pop-up {
   0% {

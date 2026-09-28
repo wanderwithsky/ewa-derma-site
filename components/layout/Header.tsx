@@ -74,6 +74,7 @@ export const Header: React.FC = () => {
               variant="primary"
               size="md"
               leftIcon={<Calendar className="w-4 h-4" />}
+              asDiv={true}
             >
               Book Now
             </Button>
@@ -112,6 +113,7 @@ export const Header: React.FC = () => {
                   size="lg"
                   className="w-full"
                   leftIcon={<Calendar className="w-4 h-4" />}
+                  asDiv={true}
                 >
                   Book Consultation
                 </Button>

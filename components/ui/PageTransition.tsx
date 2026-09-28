@@ -8,16 +8,12 @@ export const PageTransition: React.FC<{ children: React.ReactNode }> = ({ childr
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
 
-  if (prefersReducedMotion) {
-    return <>{children}</>;
-  }
-
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0.85 }}
+      initial={{ opacity: prefersReducedMotion ? 1 : 0.85 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.15, ease: "easeOut" }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.15, ease: "easeOut" }}
       className="w-full flex-1 flex flex-col will-change-transform"
     >
       {children}
