@@ -54,7 +54,7 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(
     const baseStyles =
       "relative inline-flex items-center justify-center font-display font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.97] select-none cursor-pointer overflow-hidden";
 
-    const variantStyles = {
+    const variantStyles: Record<string, string> = {
       primary:
         "bg-ewa-magenta text-white shadow-ewa-glow-magenta hover:bg-ewa-magenta-deep hover:shadow-lg focus-visible:ring-ewa-magenta border border-white/20",
       secondary:
@@ -69,7 +69,7 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(
         "bg-ewa-teal-deep text-white shadow-md hover:bg-ewa-teal hover:shadow-lg focus-visible:ring-ewa-teal border border-white/10",
     };
 
-    const sizeStyles = {
+    const sizeStyles: Record<string, string> = {
       sm: "text-xs px-3.5 py-1.5 gap-1.5",
       md: "text-sm px-5 py-2.5 gap-2",
       lg: "text-base px-7 py-3.5 gap-2.5 shadow-md",
