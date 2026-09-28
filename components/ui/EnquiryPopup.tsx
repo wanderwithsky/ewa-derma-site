@@ -11,17 +11,12 @@ export function EnquiryPopup() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Check if the popup has already been shown in this session
-    const hasBeenShown = sessionStorage.getItem("ewa_enquiry_popup_shown");
     
-    if (!hasBeenShown) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-        sessionStorage.setItem("ewa_enquiry_popup_shown", "true");
-      }, 5000); // 5 seconds delay
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 5000); // 5 seconds delay
 
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   // Prevent scrolling when modal is open
@@ -41,7 +36,7 @@ export function EnquiryPopup() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -57,32 +52,32 @@ export function EnquiryPopup() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-white rounded-[24px] sm:rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[85vh]"
+            className="relative w-full max-w-2xl bg-white rounded-[20px] sm:rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[85vh]"
           >
             {/* Header */}
-            <div className="px-6 py-6 sm:px-10 sm:py-8 border-b border-ewa-line relative shrink-0 bg-[#FBFDFD]">
+            <div className="px-5 py-5 sm:px-10 sm:py-8 border-b border-ewa-line relative shrink-0 bg-[#FBFDFD]">
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-5 right-5 sm:top-8 sm:right-8 p-2 rounded-full bg-ewa-mist text-ewa-ink/70 hover:bg-ewa-magenta hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-8 sm:right-8 p-2 rounded-full bg-ewa-mist text-ewa-ink/70 hover:bg-ewa-magenta hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
               
-              <div className="pr-12">
-                <span className="inline-block px-3.5 py-1 rounded-full bg-ewa-teal/10 text-ewa-teal-deep text-xs font-display font-semibold tracking-wide mb-3 border border-ewa-teal/20">
+              <div className="pr-10 sm:pr-12">
+                <span className="inline-block px-3 py-1 sm:px-3.5 sm:py-1 rounded-full bg-ewa-teal/10 text-ewa-teal-deep text-[10px] sm:text-xs font-display font-semibold tracking-wide mb-2 sm:mb-3 border border-ewa-teal/20">
                   SEND US A MESSAGE
                 </span>
-                <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#0D4A5A] mb-2 tracking-tight">
+                <h2 className="font-display font-bold text-2xl sm:text-4xl text-[#0D4A5A] mb-1.5 sm:mb-2 tracking-tight">
                   We&apos;re Here to Help
                 </h2>
-                <p className="text-sm sm:text-base text-ewa-ink/80 font-sans">
+                <p className="text-xs sm:text-base text-ewa-ink/80 font-sans">
                   Tell us about your skin goals and we&apos;ll reach out with tailored next steps.
                 </p>
               </div>
             </div>
 
-            {/* Form Body - Scrollable */}
-            <div className="p-6 sm:p-10 overflow-y-auto">
+            {/* Form Body - Scrollable (Scrollbar Hidden) */}
+            <div className="p-5 sm:p-10 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setIsOpen(false); }}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                   

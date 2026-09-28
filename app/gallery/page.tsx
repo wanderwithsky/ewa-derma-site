@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -47,6 +48,23 @@ export default function GalleryPage() {
   const [prewarmedVideo, setPrewarmedVideo] = useState<GalleryVideoItem | null>(null);
   const [activePhoto, setActivePhoto] = useState<GalleryPhotoItem | null>(null);
   const [activePhotoIndex, setActivePhotoIndex] = useState<number>(-1);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (activeVideo || activePhoto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeVideo, activePhoto]);
 
   // Open Video handler with instant loader reset
   const openVideoLightbox = (video: GalleryVideoItem) => {
@@ -163,126 +181,214 @@ export default function GalleryPage() {
               Real patient outcomes, high-definition in-clinic procedures, and dermoscopic documentation.
             </motion.p>
 
-            {/* Clean Category Navigation Filters */}
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
-              {[
-                { id: "all", label: `All (${GALLERY_VIDEOS.length + filteredPhotos.length})` },
-                { id: "skin", label: "Skin & Acne" },
-                { id: "hair", label: "Hair Restoration" },
-                { id: "antiaging", label: "Anti-Aging" },
-                { id: "laser", label: "Lasers" },
-                { id: "clinic", label: "Clinic Suites" },
-              ].map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    setSelectedMediaType("all");
-                    setSelectedPhotoCategory(cat.id);
-                  }}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
-                    selectedPhotoCategory === cat.id && selectedMediaType === "all"
-                      ? "bg-ewa-magenta text-white shadow-md shadow-ewa-magenta/30 scale-105"
-                      : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-
-              <button
-                onClick={() => setSelectedMediaType("videos")}
-                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
-                  selectedMediaType === "videos"
-                    ? "bg-ewa-magenta text-white shadow-md shadow-ewa-magenta/30 scale-105"
-                    : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
-                }`}
-              >
-                <Video className="w-3.5 h-3.5 text-teal-300" /> HD Videos ({GALLERY_VIDEOS.length})
-              </button>
-            </div>
           </div>
         </div>
       </section>
 
       {/* CONTINUOUS DUAL MARQUEE SLIDING STREAM */}
-      <section className="py-6 bg-ewa-teal-deep text-white overflow-hidden border-b border-ewa-teal/30 relative pause-marquee">
-        {/* Gradient shadow overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-ewa-teal-deep to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-ewa-teal-deep to-transparent z-10 pointer-events-none" />
+      <section className="py-6 bg-ewa-teal-deep text-white overflow-hidden border-b border-ewa-teal/30 relative">
+        <style>{`
+          @keyframes gallery-marquee-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes gallery-marquee-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .gallery-track-left {
+            animation: gallery-marquee-left 45s linear infinite !important;
+          }
+          .gallery-track-right {
+            animation: gallery-marquee-right 45s linear infinite !important;
+          }
+          .gallery-track-left:hover,
+          .gallery-track-right:hover {
+            animation-play-state: paused !important;
+          }
+        `}</style>
 
         {/* Row 1: Sliding Left */}
-        <div className="flex gap-4 animate-marquee-smooth hover:[animation-play-state:paused] py-1.5">
-          {[...MARQUEE_ROW_1, ...MARQUEE_ROW_1].map((imgSrc, idx) => (
-            <div
-              key={`row1-${idx}`}
-              onClick={() =>
-                openPhotoLightbox({
-                  id: `marquee-1-${idx}`,
-                  title: `Clinical Transformation #${(idx % MARQUEE_ROW_1.length) + 1}`,
-                  category: "all",
-                  categoryLabel: "Clinical Transformation",
-                  src: imgSrc,
-                  timeline: "Verified Case",
-                  details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
-                  doctorTag: "Ewa Derma Team",
-                })
-              }
-              className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
-            >
-              <Image
-                src={imgSrc}
-                alt="Ewa Derma Transformation"
-                fill
-                className="object-cover group-hover:scale-108 transition-transform duration-500"
-                sizes="300px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
-                <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                  <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
-                </span>
+        <div className="flex w-max gallery-track-left py-1.5">
+          <div className="flex shrink-0 gap-4 pr-4">
+            {MARQUEE_ROW_1.map((imgSrc, idx) => (
+              <div
+                key={`row1-${idx}-1`}
+                onClick={() =>
+                  openPhotoLightbox({
+                    id: `marquee-1-${idx}-1`,
+                    title: `Clinical Transformation #${(idx % MARQUEE_ROW_1.length) + 1}`,
+                    category: "all",
+                    categoryLabel: "Clinical Transformation",
+                    src: imgSrc,
+                    timeline: "Verified Case",
+                    details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
+                    doctorTag: "Ewa Derma Team",
+                  })
+                }
+                className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
+              >
+                <Image
+                  src={imgSrc}
+                  alt="Ewa Derma Transformation"
+                  fill
+                  className="object-cover group-hover:scale-108 transition-transform duration-500"
+                  sizes="300px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+                  <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="flex shrink-0 gap-4 pr-4" aria-hidden="true">
+            {MARQUEE_ROW_1.map((imgSrc, idx) => (
+              <div
+                key={`row1-${idx}-2`}
+                onClick={() =>
+                  openPhotoLightbox({
+                    id: `marquee-1-${idx}-2`,
+                    title: `Clinical Transformation #${(idx % MARQUEE_ROW_1.length) + 1}`,
+                    category: "all",
+                    categoryLabel: "Clinical Transformation",
+                    src: imgSrc,
+                    timeline: "Verified Case",
+                    details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
+                    doctorTag: "Ewa Derma Team",
+                  })
+                }
+                className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
+              >
+                <Image
+                  src={imgSrc}
+                  alt="Ewa Derma Transformation"
+                  fill
+                  className="object-cover group-hover:scale-108 transition-transform duration-500"
+                  sizes="300px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+                  <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Row 2: Sliding Right */}
-        <div className="flex gap-4 animate-marquee-reverse hover:[animation-play-state:paused] py-1.5 mt-2">
-          {[...MARQUEE_ROW_2, ...MARQUEE_ROW_2].map((imgSrc, idx) => (
-            <div
-              key={`row2-${idx}`}
-              onClick={() =>
-                openPhotoLightbox({
-                  id: `marquee-2-${idx}`,
-                  title: `Clinical Transformation #${(idx % MARQUEE_ROW_2.length) + 1}`,
-                  category: "all",
-                  categoryLabel: "Clinical Transformation",
-                  src: imgSrc,
-                  timeline: "Verified Case",
-                  details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
-                  doctorTag: "Ewa Derma Team",
-                })
-              }
-              className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
-            >
-              <Image
-                src={imgSrc}
-                alt="Ewa Derma Result"
-                fill
-                className="object-cover group-hover:scale-108 transition-transform duration-500"
-                sizes="300px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
-                <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                  <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
-                </span>
+        <div className="flex w-max gallery-track-right py-1.5 mt-2">
+          <div className="flex shrink-0 gap-4 pr-4">
+            {MARQUEE_ROW_2.map((imgSrc, idx) => (
+              <div
+                key={`row2-${idx}-1`}
+                onClick={() =>
+                  openPhotoLightbox({
+                    id: `marquee-2-${idx}-1`,
+                    title: `Clinical Transformation #${(idx % MARQUEE_ROW_2.length) + 1}`,
+                    category: "all",
+                    categoryLabel: "Clinical Transformation",
+                    src: imgSrc,
+                    timeline: "Verified Case",
+                    details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
+                    doctorTag: "Ewa Derma Team",
+                  })
+                }
+                className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
+              >
+                <Image
+                  src={imgSrc}
+                  alt="Ewa Derma Result"
+                  fill
+                  className="object-cover group-hover:scale-108 transition-transform duration-500"
+                  sizes="300px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+                  <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
+                  </span>
+                </div>
               </div>
-            </div>
+            ))}
+          </div>
+          <div className="flex shrink-0 gap-4 pr-4" aria-hidden="true">
+            {MARQUEE_ROW_2.map((imgSrc, idx) => (
+              <div
+                key={`row2-${idx}-2`}
+                onClick={() =>
+                  openPhotoLightbox({
+                    id: `marquee-2-${idx}-2`,
+                    title: `Clinical Transformation #${(idx % MARQUEE_ROW_2.length) + 1}`,
+                    category: "all",
+                    categoryLabel: "Clinical Transformation",
+                    src: imgSrc,
+                    timeline: "Verified Case",
+                    details: "High-definition documentation recorded at Ewa Derma Clinic Lucknow.",
+                    doctorTag: "Ewa Derma Team",
+                  })
+                }
+                className="relative w-64 sm:w-72 h-44 sm:h-48 shrink-0 rounded-2xl overflow-hidden border border-white/15 shadow-md cursor-pointer group bg-black/40 hover:border-ewa-magenta transition-all"
+              >
+                <Image
+                  src={imgSrc}
+                  alt="Ewa Derma Result"
+                  fill
+                  className="object-cover group-hover:scale-108 transition-transform duration-500"
+                  sizes="300px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-3">
+                  <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <Maximize2 className="w-3.5 h-3.5 text-ewa-magenta-light" /> View Fullscreen
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Clean Category Navigation Filters - Moved below marquees */}
+        <div className="pt-10 pb-2 px-4 max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 relative z-10">
+          {[
+            { id: "all", label: `All (${GALLERY_VIDEOS.length + filteredPhotos.length})` },
+            { id: "skin", label: "Skin & Acne" },
+            { id: "hair", label: "Hair Restoration" },
+            { id: "antiaging", label: "Anti-Aging" },
+            { id: "laser", label: "Lasers" },
+            { id: "clinic", label: "Clinic Suites" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => {
+                setSelectedMediaType("all");
+                setSelectedPhotoCategory(cat.id);
+              }}
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
+                selectedPhotoCategory === cat.id && selectedMediaType === "all"
+                  ? "bg-ewa-magenta text-white shadow-md shadow-ewa-magenta/30 scale-105"
+                  : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {cat.label}
+            </button>
           ))}
+
+          <button
+            onClick={() => setSelectedMediaType("videos")}
+            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
+              selectedMediaType === "videos"
+                ? "bg-ewa-magenta text-white shadow-md shadow-ewa-magenta/30 scale-105"
+                : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+            }`}
+          >
+            <Video className="w-3.5 h-3.5 text-teal-300" /> HD Videos ({GALLERY_VIDEOS.length})
+          </button>
         </div>
       </section>
 
       {/* SECTION 1: GOOGLE DRIVE EMBEDDED VIDEO PROCEDURES */}
-      {(selectedMediaType === "all" || selectedMediaType === "videos") && (
+      {selectedMediaType === "videos" && (
         <section className="py-12 bg-white border-b border-ewa-line">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div className="flex items-center justify-between">
@@ -475,15 +581,16 @@ export default function GalleryPage() {
       {/* ========================================================================= */}
       {/* LIGHTBOX MODAL: GOOGLE DRIVE VIDEO PLAYER */}
       {/* ========================================================================= */}
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
-            onClick={() => setActiveVideo(null)}
-          >
+      {mounted && createPortal(
+        <AnimatePresence>
+          {activeVideo && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] w-[100vw] h-[100vh] bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+              onClick={() => setActiveVideo(null)}
+            >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -582,20 +689,23 @@ export default function GalleryPage() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* ========================================================================= */}
       {/* LIGHTBOX MODAL: PHOTO GALLERY VIEW */}
       {/* ========================================================================= */}
-      <AnimatePresence>
-        {activePhoto && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
-            onClick={() => setActivePhoto(null)}
-          >
+      {mounted && createPortal(
+        <AnimatePresence>
+          {activePhoto && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] w-[100vw] h-[100vh] bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+              onClick={() => setActivePhoto(null)}
+            >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -676,7 +786,9 @@ export default function GalleryPage() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
       <Footer />
       <FloatingActions />

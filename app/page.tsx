@@ -16,7 +16,6 @@ import { ServicesCarouselSection } from "@/components/sections/ServicesCarouselS
 import { HowWeWorkSection } from "@/components/sections/HowWeWorkSection";
 import { OurBenefitsSection } from "@/components/sections/OurBenefitsSection";
 import { OurResultsSection } from "@/components/sections/OurResultsSection";
-import { FaqSection } from "@/components/sections/FaqSection";
 import { GetInTouchSection } from "@/components/sections/GetInTouchSection";
 import { TestimonialCarousel } from "@/components/ui/TestimonialCarousel";
 import { FloatingActions } from "@/components/ui/FloatingActions";
@@ -98,8 +97,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 8. FAQS SECTION (Interactive Accordion & Clinical Answers) */}
-      <FaqSection />
 
 
 

@@ -104,36 +104,81 @@ export default function ServicesPage() {
       </Section>
 
       {/* Personalized Assessment Bottom CTA */}
-      <Section variant="dark-teal" spacing="xl" className="border-t border-ewa-teal-bg-2/30">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <Badge variant="magenta">Personalized Assessment</Badge>
-          <h2 className="heading-standard-white">
+      <Section variant="white" spacing="xl" className="relative overflow-hidden border-t border-[#146A80]/10 bg-gradient-to-b from-white to-[#F9FCFC]">
+        {/* Subtle Background Decorative Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          {/* Subtle soft teal gradient blob */}
+          <div className="absolute -top-40 -left-20 w-[600px] h-[600px] bg-[#146A80]/[0.03] rounded-full blur-[80px]" />
+          
+          {/* Very subtle pink/magenta glow blob */}
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#E31C79]/[0.03] rounded-full blur-[100px] translate-x-1/4 translate-y-1/4" />
+
+          {/* Minimal abstract organic curves / decorative line patterns */}
+          <svg className="absolute top-0 right-0 w-[800px] h-[800px] text-[#146A80]/[0.02] -translate-y-1/4 translate-x-1/3 rotate-12" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.15">
+            <circle cx="50" cy="50" r="45" />
+            <circle cx="50" cy="50" r="35" />
+            <circle cx="50" cy="50" r="25" />
+            <path d="M 0 50 Q 50 10 100 50 T 200 50" strokeDasharray="1 2" />
+          </svg>
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center space-y-7 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <Badge variant="magenta">Personalized Assessment</Badge>
+          </motion.div>
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="heading-standard"
+          >
             Unsure Which Treatment Is Right for You?
-          </h2>
-          <p className="paragraph-standard-white text-sm sm:text-base max-w-2xl mx-auto">
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-base sm:text-lg max-w-2xl mx-auto text-[#0E2A32]/85 font-sans leading-relaxed"
+          >
             Our certified dermatologists in Lucknow provide in-depth skin analysis and trichoscopy examinations to design a treatment protocol tailored to your unique biology.
-          </p>
-          <div className="pt-4 flex flex-wrap justify-center gap-4">
-            <Link href="/contact">
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="pt-6 flex flex-col sm:flex-row justify-center items-center gap-4"
+          >
+            <Link href="/contact" className="w-full sm:w-auto">
               <Button
                 variant="primary"
                 size="xl"
+                className="w-full sm:w-auto shadow-xl hover:shadow-2xl"
                 leftIcon={<Calendar className="w-5 h-5" />}
               >
                 Book Doctor Consultation
               </Button>
             </Link>
-            <a href="tel:+919120854977">
+            <a href="tel:+919120854977" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="xl"
-                className="text-white border-white/40 hover:bg-white/10 hover:text-white"
+                className="w-full sm:w-auto text-[#0D4A5A] border-[#146A80]/30 hover:bg-[#146A80]/5 hover:border-[#146A80]/50 bg-white/50 backdrop-blur-sm"
                 leftIcon={<Phone className="w-5 h-5" />}
               >
                 Call +91 9120854977
               </Button>
             </a>
-          </div>
+          </motion.div>
         </div>
       </Section>
 

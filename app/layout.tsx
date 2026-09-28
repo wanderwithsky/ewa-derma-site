@@ -44,7 +44,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         <link rel="dns-prefetch" href="https://googleusercontent.com" />
       </head>
-      <body className="antialiased bg-ewa-mist text-ewa-ink min-h-screen selection:bg-ewa-magenta selection:text-white flex flex-col font-sans">
+      <body className="antialiased bg-ewa-mist text-ewa-ink min-h-screen selection:bg-ewa-magenta selection:text-white flex flex-col font-sans overflow-x-hidden max-w-full">
         <PageTransition>{children}</PageTransition>
         <EnquiryPopup />
       </body>

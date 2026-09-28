@@ -37,6 +37,8 @@
     color: var(--ewa-ink);
     background-color: var(--ewa-mist);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
   body {
@@ -45,6 +47,7 @@
     color: var(--ewa-ink);
     background: var(--ewa-mist);
     overflow-x: hidden;
+    max-width: 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {

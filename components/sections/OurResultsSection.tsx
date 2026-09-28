@@ -26,11 +26,11 @@ export const OurResultsSection: React.FC = () => {
       : GALLERY_CASES.filter((c) => c.category === activeCategory);
 
   return (
-    <Section variant="white" spacing="xl" className="relative overflow-hidden">
+    <Section variant="white" spacing="xl" containerSize="full" className="relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gradient-to-b from-[#146A80]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 mx-auto space-y-12 relative z-10">
         {/* Header matching user's design reference */}
         <div className="max-w-3xl mx-auto text-center space-y-4">
           {/* Tag: • Our Result */}
@@ -55,16 +55,6 @@ export const OurResultsSection: React.FC = () => {
             Before & after: witness the power of dermatology
           </motion.h2>
 
-          {/* Subtitle - Standard Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="paragraph-standard text-sm sm:text-base max-w-2xl mx-auto"
-          >
-            See the remarkable transformations for yourself—our &apos;Before & After&apos; gallery highlights the powerful impact of dermatological treatments.
-          </motion.p>
 
           {/* Category Filter Pills */}
           <motion.div
@@ -115,44 +105,6 @@ export const OurResultsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Bottom Proof & Action Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#F0F7F7] via-white to-[#F0F7F7] border border-[#146A80]/20">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#146A80]/10 flex items-center justify-center text-[#146A80] shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="font-display font-bold text-base text-[#0D4A5A]">
-                100% Authentic Clinical Photography
-              </div>
-              <div className="text-xs text-gray-600">
-                Unretouched patient cases treated under certified medical protocols in Lucknow.
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Link href="/gallery" className="w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="md"
-                className="w-full sm:w-auto border-[#0D4A5A] text-[#0D4A5A] hover:bg-[#0D4A5A] hover:text-white"
-                rightIcon={<ArrowRight className="w-4 h-4" />}
-              >
-                View Full Gallery
-              </Button>
-            </Link>
-            <Link href="/contact" className="w-full sm:w-auto">
-              <Button
-                variant="primary"
-                size="md"
-                className="w-full sm:w-auto"
-              >
-                Book Your Consultation
-              </Button>
-            </Link>
-          </div>
-        </div>
       </div>
     </Section>
   );

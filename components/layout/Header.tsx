@@ -47,7 +47,7 @@ export const Header: React.FC = () => {
               key={link.label}
               href={link.href}
               prefetch={true}
-              className="text-sm font-display font-medium text-ewa-ink/80 hover:text-ewa-teal transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-ewa-magenta hover:after:w-full after:transition-all after:duration-300"
+              className="text-[15px] lg:text-base font-display font-semibold tracking-[0.015em] text-ewa-ink/85 hover:text-ewa-teal transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-ewa-magenta hover:after:w-full after:transition-all after:duration-300"
             >
               {link.label}
             </Link>
@@ -59,7 +59,7 @@ export const Header: React.FC = () => {
           {/* Click to Call */}
           <a
             href="tel:+919120854977"
-            className="flex items-center gap-2 text-xs font-display font-semibold text-ewa-teal-deep hover:text-ewa-magenta px-3 py-2 rounded-full transition-colors"
+            className="flex items-center gap-2 text-[14.5px] lg:text-[15px] font-display font-semibold tracking-wide text-ewa-teal-deep hover:text-ewa-magenta px-3 py-2 rounded-full transition-colors"
             aria-label="Call Ewa Derma Clinic"
           >
             <div className="w-7 h-7 rounded-full bg-ewa-teal/10 flex items-center justify-center text-ewa-teal">
