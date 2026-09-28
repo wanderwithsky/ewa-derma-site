@@ -101,71 +101,7 @@ export default function HomePage() {
       {/* 8. FAQS SECTION (Interactive Accordion & Clinical Answers) */}
       <FaqSection />
 
-      {/* 9. CLOSING CTA BAND ("READY TO GLOW?") */}
-      <Section variant="dark-teal" spacing="xl" className="border-t border-ewa-teal-bg-2/30">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-          >
-            <Badge variant="magenta">Begin Your Transformation</Badge>
-          </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="heading-standard-white"
-          >
-            Ready to Glow?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="paragraph-standard-white text-base sm:text-lg max-w-3xl mx-auto"
-          >
-            Your journey to flawless skin and restored confidence begins here. We invite you to visit our clinic to experience our world-class facilities firsthand. Step into a space of comfort and luxury where our experts are ready to listen to your needs. Consultations are tailored to your unique skin type and aesthetic goals. Let us redefine your beauty standards.
-          </motion.p>
-
-          <div className="pt-4 flex flex-wrap justify-center gap-4">
-            <Link href="/contact">
-              <Button
-                variant="primary"
-                size="xl"
-                magnetic={true}
-                leftIcon={<Calendar className="w-5 h-5" />}
-                asDiv={true}
-              >
-                Book a Consultation
-              </Button>
-            </Link>
-
-            <a href={`tel:${CLINIC_INFO.phone}`}>
-              <Button
-                variant="outline"
-                size="xl"
-                className="text-white border-white/40 hover:bg-white/10 hover:text-white"
-                leftIcon={<Phone className="w-5 h-5" />}
-                asDiv={true}
-              >
-                Call {CLINIC_INFO.phone}
-              </Button>
-            </a>
-          </div>
-
-          <div className="pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-6 text-xs text-white/70">
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-ewa-cyan" /> The Millennium Place, Golf City, Lucknow
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-ewa-green" /> Mon–Sun: 10:00 AM – 7:00 PM
-            </span>
-          </div>
-        </div>
-      </Section>
 
       {/* 10. GET IN TOUCH WITH OUR SPECIALISTS (Interactive Booking & Direct Consultation Form) */}
       <GetInTouchSection />

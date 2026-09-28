@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 
 export function WhyChooseUsSection() {
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -168,92 +167,24 @@ export function WhyChooseUsSection() {
               ))}
             </div>
 
-            {/* CTAs & Floating Stat Box */}
-            <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-ewa-line">
-              {/* Buttons */}
-              <div className="flex flex-wrap items-center gap-4">
-                <Link href="/about">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    className="bg-[#0D4A5A] hover:bg-[#146A80] text-white shadow-md"
-                    rightIcon={<ArrowRight className="w-4 h-4" />}
-                  >
-                    About More
-                  </Button>
-                </Link>
-
-                <button
-                  onClick={() => setIsVideoModalOpen(true)}
-                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full border border-ewa-teal-deep/20 text-ewa-teal-deep font-display font-semibold text-sm hover:bg-ewa-teal-deep/5 transition-colors shadow-sm active:scale-95"
+            {/* CTA */}
+            <div className="pt-6 border-t border-ewa-line">
+              <Link href="/about">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="bg-[#0D4A5A] hover:bg-[#146A80] text-white shadow-md"
+                  rightIcon={<ArrowRight className="w-4 h-4" />}
                 >
-                  <span className="w-7 h-7 rounded-full bg-ewa-teal-deep text-white flex items-center justify-center">
-                    <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
-                  </span>
-                  <span>Play Session</span>
-                </button>
-              </div>
-
-              {/* Stat Pill Card (Dark Teal Rounded Box with Pop Animation) */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.3 }}
-                className="p-5 rounded-[24px] bg-[#0B2C33] text-white flex items-center gap-4 shadow-xl border border-white/10 shrink-0 hover:scale-105 transition-transform duration-300"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-ewa-cyan">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl font-display font-black text-white">
-                    29 +
-                  </div>
-                  <div className="text-xs text-white/75 font-medium">
-                    Team Members
-                  </div>
-                </div>
-              </motion.div>
+                  About More
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Video Modal (Optional preview) */}
-      {isVideoModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl overflow-hidden shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-ewa-line pb-3">
-              <h3 className="font-display font-bold text-lg text-ewa-teal-deep">
-                Ewa Derma Clinic Tour & Experience
-              </h3>
-              <button
-                onClick={() => setIsVideoModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-ewa-mist flex items-center justify-center text-ewa-ink hover:bg-ewa-magenta hover:text-white transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="aspect-video w-full rounded-2xl bg-ewa-teal-deep/10 flex items-center justify-center overflow-hidden relative">
-              <Image
-                src="/images/gallery/Screenshot 2026-09-17 150809.png"
-                alt="Ewa Derma Clinic Luxury Suite in Golf City Lucknow"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center p-4">
-                <Play className="w-16 h-16 text-white mb-2" />
-                <p className="font-display font-semibold text-lg">
-                  Clinical Session & Facility Showcase
-                </p>
-                <p className="text-xs text-white/80 max-w-md">
-                  Book an in-person consultation at The Millennium Place, Golf City, Lucknow.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       <style>{`
         .fullscreen-video-wrapper:fullscreen {
