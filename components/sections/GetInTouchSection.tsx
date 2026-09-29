@@ -39,7 +39,7 @@ export const GetInTouchSection: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[900px] flex items-center justify-center py-20 lg:py-32 overflow-hidden border-t border-ewa-line">
+    <section className="relative w-full flex items-center justify-center py-6 lg:py-8 overflow-hidden border-t border-ewa-line">
       {/* Background Video */}
       <video
         src="https://res.cloudinary.com/zvlxacfu/video/upload/v1790591718/gemini_generated_video_5103c2ae.mp4"
@@ -62,7 +62,7 @@ export const GetInTouchSection: React.FC = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
             {/* Form Section */}
-            <div className="lg:col-span-7 p-6 sm:p-10 lg:p-14 flex flex-col justify-center">
+            <div className="lg:col-span-7 px-6 py-4 sm:px-10 sm:py-6 lg:px-14 lg:py-8 flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 {isSubmitted ? (
                   <motion.div
@@ -200,12 +200,12 @@ export const GetInTouchSection: React.FC = () => {
             </div>
 
             {/* Clinic Info Section */}
-            <div className="lg:col-span-5 bg-[#0D4A5A] text-white p-8 sm:p-10 lg:p-14 flex flex-col justify-center relative overflow-hidden">
+            <div className="lg:col-span-5 bg-[#0D4A5A] text-white px-8 py-5 sm:px-10 sm:py-6 lg:px-14 lg:py-8 flex flex-col justify-center relative overflow-hidden">
               {/* Decorative elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-ewa-magenta/10 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-ewa-cyan/10 rounded-full blur-3xl pointer-events-none" />
               
-              <div className="relative z-10 space-y-10">
+              <div className="relative z-10 space-y-6">
                 <div className="space-y-4">
                   <h3 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-white">
                     EWA Derma Clinic
@@ -215,7 +215,7 @@ export const GetInTouchSection: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* Address */}
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/10">

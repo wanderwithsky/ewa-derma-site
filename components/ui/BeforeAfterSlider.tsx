@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
@@ -30,31 +30,48 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   className,
   initialPosition = 50,
 }) => {
-  const [sliderPos, setSliderPos] = useState(initialPosition);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const beforeImageRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
+  const sliderPosRef = useRef(initialPosition);
+  const isDraggingRef = useRef(false);
+
+  const updatePositionPercent = useCallback((percent: number) => {
+    sliderPosRef.current = percent;
+    if (beforeImageRef.current && dividerRef.current) {
+      beforeImageRef.current.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+      dividerRef.current.style.left = `${percent}%`;
+    }
+  }, []);
 
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(percent);
-  }, []);
+    updatePositionPercent(percent);
+  }, [updatePositionPercent]);
+
+  useEffect(() => {
+    updatePositionPercent(initialPosition);
+  }, [initialPosition, updatePositionPercent]);
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    isDraggingRef.current = true;
     setIsDragging(true);
     updatePosition(e.clientX);
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (isDragging) {
+    if (isDraggingRef.current) {
       updatePosition(e.clientX);
     }
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
+    isDraggingRef.current = false;
     setIsDragging(false);
   };
 
@@ -87,8 +104,9 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
         {/* "BEFORE" Image Layer (Clipped to Slider Position) */}
         <div
-          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
-          style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
+          ref={beforeImageRef}
+          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none will-change-[clip-path]"
+          style={{ clipPath: `inset(0 ${100 - initialPosition}% 0 0)` }}
         >
           <img
             src={beforeImage}
@@ -107,26 +125,27 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
         {/* Vertical Divider Line */}
         <div
-          className="absolute top-0 bottom-0 w-[2.5px] bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)] pointer-events-none"
-          style={{ left: `${sliderPos}%` }}
+          ref={dividerRef}
+          className="absolute top-0 bottom-0 w-[2.5px] bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)] pointer-events-none will-change-[left]"
+          style={{ left: `${initialPosition}%` }}
         >
           {/* Circular Drag Handle with < | > icon */}
           <div
             role="slider"
             aria-label={title ? `${title} comparison slider` : "Before and after comparison slider"}
-            aria-valuenow={Math.round(sliderPos)}
+            aria-valuenow={Math.round(sliderPosRef.current)}
             aria-valuemin={0}
             aria-valuemax={100}
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === "ArrowLeft") {
-                setSliderPos((prev) => Math.max(0, prev - 5));
+                updatePositionPercent(Math.max(0, sliderPosRef.current - 5));
               } else if (e.key === "ArrowRight") {
-                setSliderPos((prev) => Math.min(100, prev + 5));
+                updatePositionPercent(Math.min(100, sliderPosRef.current + 5));
               } else if (e.key === "Home") {
-                setSliderPos(0);
+                updatePositionPercent(0);
               } else if (e.key === "End") {
-                setSliderPos(100);
+                updatePositionPercent(100);
               }
             }}
             className={cn(
@@ -142,34 +161,6 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Metadata Row (Title / Category / Timeline / Details) */}
-      {(title || category || timeline || details) && (
-        <div className="px-1.5 space-y-2">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            {category && (
-              <Badge variant="teal" size="sm">
-                {category}
-              </Badge>
-            )}
-            {timeline && (
-              <span className="text-[11px] font-mono font-semibold text-[#0D4A5A] bg-[#0D4A5A]/10 px-2.5 py-0.5 rounded-full border border-[#0D4A5A]/15">
-                {timeline}
-              </span>
-            )}
-          </div>
-          {title && (
-            <h4 className="font-display font-bold text-lg text-[#0D4A5A] leading-snug">
-              {title}
-            </h4>
-          )}
-          {details && (
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-              {details}
-            </p>
-          )}
-        </div>
-      )}
     </div>
   );
 };

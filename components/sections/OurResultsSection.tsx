@@ -30,7 +30,7 @@ export const OurResultsSection: React.FC = () => {
       {/* Background ambient lighting */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gradient-to-b from-[#146A80]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 mx-auto space-y-12 relative z-10">
+      <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto space-y-12 relative z-10">
         {/* Header matching user's design reference */}
         <div className="max-w-3xl mx-auto text-center space-y-4">
           {/* Tag: • Our Result */}
@@ -80,7 +80,7 @@ export const OurResultsSection: React.FC = () => {
         </div>
 
         {/* Before & After Interactive Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 w-full max-w-[1920px] mx-auto">
           {filteredCases.map((item, index) => (
             <motion.div
               key={item.id}
@@ -88,17 +88,13 @@ export const OurResultsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white p-4 sm:p-5 rounded-[32px] border border-gray-200/80 shadow-md hover:shadow-xl transition-all duration-300"
+              className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)] flex-shrink-0 bg-white p-3 sm:p-4 rounded-[32px] border border-gray-200/80 shadow-md hover:shadow-xl transition-all duration-300"
             >
               <BeforeAfterSlider
-                title={item.title}
-                category={item.categoryLabel}
-                timeline={item.timeline}
                 beforeImage={item.beforeImage}
                 afterImage={item.afterImage}
                 beforeLabel={item.beforeLabel || "Before"}
                 afterLabel={item.afterLabel || "After"}
-                details={item.details}
                 initialPosition={index === 0 ? 50 : index === 1 ? 55 : 48}
               />
             </motion.div>
